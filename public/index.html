@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to London Subway Cleaning Suggestions</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6e7bff, #4caf50); /* 渐变背景 */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #4caf50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        label {
+            margin-bottom: 10px;
+            display: block;
+            font-size: 16px;
+            text-align: left;
+            margin-left: 10px;
+        }
+
+        input[type="file"], input[type="text"] {
+            padding: 12px;
+            margin-bottom: 20px;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="file"]:hover, input[type="text"]:hover {
+            border-color: #4caf50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+            display: none;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .error {
+            color: red;
+            background-color: #ffebee;
+            border: 1px solid #f44336;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Welcome to London Subway Cleaning Suggestions</h1>
+
+    <div id="personal-entry">
+        <h2>Personal Entry</h2>
+        <form id="uploadForm">
+            <label for="image">Upload your image suggestion (JPG, PNG, GIF, BMP, WebP):</label>
+            <input type="file" id="image" name="image" accept="image/*" required />
+            <button type="submit">Upload Image</button>
+        </form>
+        <div class="message" id="successMessage"></div>
+        <div class="message error" id="errorMessage"></div>
+    </div>
+
+    <div id="company-entry">
+        <h2>Company Entry</h2>
+        <label for="companyName">Company Name:</label>
+        <input type="text" id="companyName" name="companyName" placeholder="Enter your company name" required />
+        <label for="companyAccount">Company Account:</label>
+        <input type="text" id="companyAccount" name="companyAccount" placeholder="Enter your company account" required />
+        <button id="submitCompany">Submit</button>
+        <div class="message" id="companyMessage"></div>
+    </div>
+
+</div>
+
+<script>
+    // 获取 DOM 元素
+    const uploadForm = document.getElementById('uploadForm');
+    const imageInput = document.getElementById('image');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // 处理个人入口上传图片
+    uploadForm.addEventListener('submit', function (e) {
+        e.preventDefault(); // 阻止表单默认提交行为
+
+        const formData = new FormData();
+        formData.append('image', imageInput.files[0]);
+
+        // 发起 POST 请求上传文件
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    successMessage.style.display = 'block';
+                    successMessage.innerHTML = `
+              ${data.message}<br>
+              Your submission has been accepted and is being processed.
+            `;
+                    errorMessage.style.display = 'none'; // 隐藏错误消息
+                }
+            })
+            .catch(error => {
+                errorMessage.style.display = 'block';
+                errorMessage.innerHTML = 'There was an error uploading your file. Please try again.';
+                successMessage.style.display = 'none'; // 隐藏成功消息
+            });
+    });
+
+    // 处理公司入口提交
+    const companyButton = document.getElementById('submitCompany');
+    const companyNameInput = document.getElementById('companyName');
+    const companyAccountInput = document.getElementById('companyAccount');
+    const companyMessage = document.getElementById('companyMessage');
+
+    companyButton.addEventListener('click', function () {
+        const companyName = companyNameInput.value.trim();
+        const companyAccount = companyAccountInput.value.trim();
+
+        if (companyName && companyAccount) {
+            companyMessage.style.display = 'block';
+            companyMessage.innerHTML = 'You are not yet a registered partner company. Please contact us at <a href="mailto:a@example.com">a@example.com</a>.';
+        } else {
+            companyMessage.style.display = 'block';
+            companyMessage.innerHTML = 'Please fill in both company name and account.';
+        }
+    });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
