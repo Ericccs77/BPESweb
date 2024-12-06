@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #6e7bff, #4caf50); /* 渐变背景 */
+            background: linear-gradient(135deg, #6e7bff, #4caf50);
             color: #fff;
             margin: 0;
             padding: 0;
@@ -135,20 +135,20 @@
 </div>
 
 <script>
-    // 获取 DOM 元素
+    // get DOM element
     const uploadForm = document.getElementById('uploadForm');
     const imageInput = document.getElementById('image');
     const successMessage = document.getElementById('successMessage');
     const errorMessage = document.getElementById('errorMessage');
 
-    // 处理个人入口上传图片
+    // process personal image
     uploadForm.addEventListener('submit', function (e) {
         e.preventDefault(); // 阻止表单默认提交行为
 
         const formData = new FormData();
         formData.append('image', imageInput.files[0]);
 
-        // 发起 POST 请求上传文件
+        // start POST
         fetch('/upload', {
             method: 'POST',
             body: formData
@@ -161,17 +161,17 @@
               ${data.message}<br>
               Your submission has been accepted and is being processed.
             `;
-                    errorMessage.style.display = 'none'; // 隐藏错误消息
+                    errorMessage.style.display = 'none'; // hide error info
                 }
             })
             .catch(error => {
                 errorMessage.style.display = 'block';
                 errorMessage.innerHTML = 'There was an error uploading your file. Please try again.';
-                successMessage.style.display = 'none'; // 隐藏成功消息
+                successMessage.style.display = 'none'; // hide info
             });
     });
 
-    // 处理公司入口提交
+    // company login
     const companyButton = document.getElementById('submitCompany');
     const companyNameInput = document.getElementById('companyName');
     const companyAccountInput = document.getElementById('companyAccount');
@@ -193,6 +193,9 @@
 
 </body>
 </html>
+
+
+
 
 
 
